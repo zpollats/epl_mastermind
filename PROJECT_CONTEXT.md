@@ -1,10 +1,10 @@
 # FPL Pipeline - Project Handoff Document
 
-## 🎯 Current Status: Historical Data Complete, Ready for dbt Setup
+## 🎯 Current Status: dbt Feature Pipeline Complete, Ready for ML Development
 
-**Last Updated:** August 10, 2025  
-**Phase:** Historical data loading complete, dbt models designed  
-**Next Chat Context:** Reference this document + start dbt setup and ML pipeline development
+**Last Updated:** August 16, 2025 (Session 2)  
+**Phase:** Feature engineering complete, ML model development next  
+**Next Chat Context:** Reference this document + start ML model training and evaluation
 
 ---
 
@@ -56,7 +56,6 @@ fpl-pipeline/
 │   ├── __init__.py
 │   ├── ingestion/              # Data loading scripts
 │   │   ├── __init__.py
-│   │   ├── data_exploration.py
 │   │   ├── historical_loader.py
 │   │   └── api_loader.py       # (future - live API)
 │   ├── ml/                     # Model training/prediction
@@ -136,31 +135,34 @@ touch src/flows/{__init__.py,main_pipeline.py}
 1. **✅ Complete project setup** (DONE)
 2. **✅ Run data exploration** (DONE) 
 3. **✅ Load complete historical dataset** (DONE - 133k+ rows)
-4. **🔄 Setup dbt and run transformations** (NEXT PRIORITY)
-   - Install dbt-core and dbt-duckdb
-   - Initialize dbt project in `dbt/` directory
-   - Copy all model files from artifacts
-   - Run staging → intermediate → marts pipeline
-5. **📋 Build ML training pipeline** (AFTER dbt)
+4. **✅ Setup dbt and run transformations** (DONE - Full pipeline running)
+5. **🔄 Build ML training pipeline** (NEXT PRIORITY)
+   - Explore ML features from `mart_ml_features` table
+   - Design time-based train/test splits
+   - Build baseline RandomForest/XGBoost model
+   - Evaluate model performance and feature importance
 6. **📋 Create prediction workflow** (AFTER ML)
+7. **📋 Integrate live API** (Later in season)
 
 ---
 
 ## 📅 Planned Development Phases
 
-### Phase 1: Foundation (Weeks 1-4) - ✅ NEARLY COMPLETE
+### Phase 1: Foundation (Weeks 1-4) - ✅ COMPLETE
 - [x] Project structure and environment setup
 - [x] Data exploration and understanding  
 - [x] Complete historical data loading pipeline (133k+ rows)
 - [x] DuckDB database with indexes and validation
-- [ ] dbt setup and staging models (NEXT SESSION)
-- [ ] Feature engineering pipeline
+- [x] dbt setup and staging models
+- [x] Complete feature engineering pipeline (staging → intermediate → marts)
 
-### Phase 2: Data Pipeline (Weeks 5-8)
-- [ ] Complete dbt transformations (staging → marts)
-- [ ] Feature engineering for ML
-- [ ] Data quality testing
-- [ ] Prefect workflow integration
+### Phase 2: ML Development (Weeks 5-8) - 🔄 READY TO START
+- [ ] ML feature exploration and analysis
+- [ ] Time-based train/validation/test splits
+- [ ] Baseline model development (RandomForest/XGBoost)
+- [ ] Model evaluation and feature importance analysis
+- [ ] Hyperparameter tuning and optimization
+- [ ] Prediction pipeline for next gameweek
 
 ### Phase 3: ML Integration (Weeks 9-12)
 - [ ] Model training pipeline
@@ -221,17 +223,26 @@ touch src/flows/{__init__.py,main_pipeline.py}
 - **Schema evolution tracking:** Documented changes across seasons
 - **Database design:** Proper indexing and validation queries
 
-### ✅ Complete dbt Architecture Designed
+### ✅ Complete dbt Feature Engineering Pipeline
 - **Staging models:** Clean and standardize raw data
 - **Intermediate models:** Feature engineering (rolling stats, team performance, position benchmarks)
 - **Marts models:** ML-ready features with target variable (`next_gw_points`)
 - **Data quality tests:** Comprehensive validation and monitoring
+- **Pipeline execution:** Full dbt run successful, all models materialized
+
+### ✅ ML-Ready Dataset
+- **Feature table:** `mart_ml_features` with comprehensive feature set
+- **Target variable:** `next_gw_points` for supervised learning
+- **Features include:** Player form (5-game averages), team strength, position benchmarks, financial metrics
+- **Data filtering:** Minimum 3 games played, valid target variables
+- **Ready for model training:** Time-series appropriate feature engineering complete
 
 ### ✅ Modern Development Setup
 - **uv dependency management:** Fast, modern Python environment
 - **Professional project structure:** Ready for portfolio showcase
-- **Git initialization:** Clean commit history from start
+- **Git repository:** Clean commit history from start
 - **Documentation:** Living context document for continuity
+- **dbt project:** Production-ready data transformation pipeline
 
 ---
 

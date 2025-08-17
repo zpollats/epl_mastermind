@@ -1,0 +1,11 @@
+epl_mastermind:
+  outputs:
+    dev:
+      type: duckdb
+      path: '../../data/fpl_complete.db'
+      schema: main
+    prod:
+      type: duckdb
+      path: '../../data/fpl_prod.db'
+      schema: main
+  target: dev

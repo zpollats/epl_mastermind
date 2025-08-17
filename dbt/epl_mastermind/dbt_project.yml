@@ -1,0 +1,48 @@
+
+# Name your project! Project names should contain only lowercase characters
+# and underscores. A good package name should reflect your organization's
+# name or the intended use of these models
+name: 'epl_mastermind'
+version: '1.0.0'
+config-version: 2
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'epl_mastermind'
+
+# These configurations specify where dbt should look for different types of files.
+# The `model-paths` config, for example, states that models in this project can be
+# found in the "models/" directory. You probably won't need to change these!
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"  # directory which will store compiled SQL files
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+models:
+  epl_mastermind:
+    # Config indicated by + and applies to all files under models/staging/
+    staging:
+      +materialized: view
+    # Config indicated by + and applies to all files under models/intermediate/
+    intermediate:
+      +materialized: view
+    # Config indicated by + and applies to all files under models/marts/
+    marts:
+      +materialized: table
+
+# Testing
+tests:
+  +store_failures: true # all tests
+
+vars:
+  current_season: '2024-2025'
+  rolling_window_games: 5
+  min_minutes_threshold: 15
+
+

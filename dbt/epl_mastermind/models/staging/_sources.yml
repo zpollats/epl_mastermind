@@ -1,0 +1,41 @@
+version: 2
+
+sources:
+  - name: fpl_raw
+    description: Raw FPL data loaded from historical CSV files
+    database: fpl_complete
+    schema: main
+    tables:
+      - name: player_gameweeks
+        description: Raw player performance data by gameweek
+        columns:
+          - name: name
+            description: Player full name
+            tests:
+              - not_null
+          - name: position
+            description: Player position (GK, DEF, MID, FWD)
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['GK', 'DEF', 'MID', 'FWD']
+          - name: team
+            description: Team name
+            tests:
+              - not_null
+          - name: GW
+            description: Gameweek number (1-38)
+            tests:
+              - not_null
+              - dbutils.accepted_range:
+                  min_value: 1
+                  max_value: 38
+          - name: total_points
+            description: Total points scored by player in GW
+          - name: minutes
+            description: Minutes played in GW
+            tests:
+              - dbutils.accepted_range:
+                  min_value: 0
+                  max_value: 90
+                  severity: warn
