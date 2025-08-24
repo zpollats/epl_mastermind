@@ -1,10 +1,10 @@
 # FPL Pipeline - Project Handoff Document
 
-## 🎯 Current Status: dbt Feature Pipeline Complete, Ready for ML Development
+## 🎯 Current Status: Baseline ML Model Complete, Ready for Optimization
 
-**Last Updated:** August 16, 2025 (Session 2)  
-**Phase:** Feature engineering complete, ML model development next  
-**Next Chat Context:** Reference this document + start ML model training and evaluation
+**Last Updated:** August 17, 2025 (Session 3)  
+**Phase:** Baseline ML model trained, optimization opportunities identified  
+**Next Chat Context:** Reference this document + focus on model improvement and feature engineering
 
 ---
 
@@ -60,6 +60,8 @@ fpl-pipeline/
 │   │   └── api_loader.py       # (future - live API)
 │   ├── ml/                     # Model training/prediction
 │   │   ├── __init__.py
+│   │   ├── explore_features.py         # review the features we have created in mart_ml_features
+│   │   ├── train_baseline.py           # train a baseline model
 │   │   ├── features.py
 │   │   ├── models.py
 │   │   └── predictions.py
@@ -132,17 +134,30 @@ touch src/flows/{__init__.py,main_pipeline.py}
 
 ## 🚀 Immediate Next Steps (Next Session)
 
-1. **✅ Complete project setup** (DONE)
-2. **✅ Run data exploration** (DONE) 
-3. **✅ Load complete historical dataset** (DONE - 133k+ rows)
-4. **✅ Setup dbt and run transformations** (DONE - Full pipeline running)
-5. **🔄 Build ML training pipeline** (NEXT PRIORITY)
-   - Explore ML features from `mart_ml_features` table
-   - Design time-based train/test splits
-   - Build baseline RandomForest/XGBoost model
-   - Evaluate model performance and feature importance
-6. **📋 Create prediction workflow** (AFTER ML)
-7. **📋 Integrate live API** (Later in season)
+1. **Add opponent strength to features (HIGHEST PRIORITY)**
+   - Next opponent defensive strength
+   - Next opponent attacking strength
+   - Historical performance vs similar oppoents
+   - Home/away context for next fixture
+   - Position-specific oppoenent analysis
+
+2. **🔧 Model Improvement (HIGH PRIORITY)**
+   - Feature engineering: Add fixture difficulty, recent form trends, injury indicators
+   - Advanced models: Try XGBoost, ensemble methods, position-specific models
+   - Hyperparameter tuning: Current RandomForest is basic, optimize parameters
+   - Target engineering: Consider different prediction targets (categorical, expected vs actual)
+
+3. **📊 Model Analysis & Debugging**
+   - Analyze prediction errors: Where is the model failing? Which players/situations?
+   - Feature interaction analysis: Are we missing key feature combinations?
+   - Temporal analysis: Does model perform worse in certain gameweeks/seasons?
+   - Position-specific modeling: Train separate models for each position?
+
+4. **🎯 FPL-Specific Optimization**
+   - Focus on big haul prediction (currently only 14.3% recall)
+   - Optimize for captain picks and differential players
+   - Integrate price changes and ownership trends
+   - Add fixture congestion and rotation risk features
 
 ---
 
@@ -156,13 +171,14 @@ touch src/flows/{__init__.py,main_pipeline.py}
 - [x] dbt setup and staging models
 - [x] Complete feature engineering pipeline (staging → intermediate → marts)
 
-### Phase 2: ML Development (Weeks 5-8) - 🔄 READY TO START
-- [ ] ML feature exploration and analysis
-- [ ] Time-based train/validation/test splits
-- [ ] Baseline model development (RandomForest/XGBoost)
-- [ ] Model evaluation and feature importance analysis
-- [ ] Hyperparameter tuning and optimization
-- [ ] Prediction pipeline for next gameweek
+### Phase 2: ML Development (Weeks 5-8) - ✅ BASELINE COMPLETE, 🔄 OPTIMIZATION NEEDED
+- [x] ML feature exploration and analysis (excellent data quality confirmed)
+- [x] Time-based train/validation/test splits (proper temporal validation)
+- [x] Baseline model development (RandomForest trained and saved)
+- [x] Model evaluation and feature importance analysis
+- [ ] **Model improvement and optimization** (CRITICAL NEXT STEP)
+- [ ] **Advanced feature engineering** (fixture difficulty, form trends)
+- [ ] **FPL-specific model tuning** (big haul prediction optimization)
 
 ### Phase 3: ML Integration (Weeks 9-12)
 - [ ] Model training pipeline
@@ -210,39 +226,29 @@ touch src/flows/{__init__.py,main_pipeline.py}
 
 ## 🎉 Major Achievements This Session
 
-### ✅ Complete Historical Dataset (133,273 rows)
-- **All 5 seasons loaded:** 2020-21 through 2024-25 (complete)
-- **Smart loading strategy:** Combined merged files + individual gameweek files
-- **Data quality handled:** Parsing errors, schema evolution, negative points
-- **Performance optimized:** DuckDB with proper indexes
-- **1,864 unique players** across 189 gameweeks
+### ✅ Complete Baseline ML Pipeline 
+- **Feature exploration:** 63k+ ML-ready records with excellent data quality
+- **Time-based validation:** Proper temporal splits (2020-2023 train, 2023-24 val, 2024-25 test)
+- **RandomForest baseline:** Trained and saved model with comprehensive evaluation
+- **Feature importance:** Identified key predictors (season_avg_points, player_value, position_percentile)
+- **FPL-specific metrics:** Directional accuracy, big haul prediction, position analysis
 
-### ✅ Production-Ready Data Pipeline
-- **Robust error handling:** Multiple parsing strategies, graceful degradation
-- **Comprehensive logging:** Full observability of data loading process
-- **Schema evolution tracking:** Documented changes across seasons
-- **Database design:** Proper indexing and validation queries
+### 📊 Baseline Model Results (Room for Improvement)
+- **Test Performance:** MAE 2.23 points, R² 0.048, RMSE 3.00
+- **Directional Accuracy:** 57.5% (slightly better than random)
+- **Big Haul Recall:** 14.3% (343 actual big hauls, captured 49)
+- **Feature Rankings:** season_avg_points (0.217) > player_value (0.119) > position_percentile (0.104)
 
-### ✅ Complete dbt Feature Engineering Pipeline
-- **Staging models:** Clean and standardize raw data
-- **Intermediate models:** Feature engineering (rolling stats, team performance, position benchmarks)
-- **Marts models:** ML-ready features with target variable (`next_gw_points`)
-- **Data quality tests:** Comprehensive validation and monitoring
-- **Pipeline execution:** Full dbt run successful, all models materialized
+### ✅ Production Infrastructure
+- **Model persistence:** Saved RandomForest model and feature metadata
+- **Evaluation framework:** Comprehensive FPL-specific performance metrics
+- **Time-series validation:** Proper temporal evaluation preventing data leakage
 
-### ✅ ML-Ready Dataset
-- **Feature table:** `mart_ml_features` with comprehensive feature set
-- **Target variable:** `next_gw_points` for supervised learning
-- **Features include:** Player form (5-game averages), team strength, position benchmarks, financial metrics
-- **Data filtering:** Minimum 3 games played, valid target variables
-- **Ready for model training:** Time-series appropriate feature engineering complete
-
-### ✅ Modern Development Setup
-- **uv dependency management:** Fast, modern Python environment
-- **Professional project structure:** Ready for portfolio showcase
-- **Git repository:** Clean commit history from start
-- **Documentation:** Living context document for continuity
-- **dbt project:** Production-ready data transformation pipeline
+### 🔍 Key Insights for Model Improvement
+- **Low explained variance (R² = 0.048):** FPL points are inherently noisy/unpredictable
+- **Feature dominance:** Season averages and player value are most predictive
+- **Big haul challenge:** Only capturing 14% of high-scoring gameweeks
+- **Model conservatism:** Predictions have much lower variance than actual points
 
 ---
 
